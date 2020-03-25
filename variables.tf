@@ -13,6 +13,11 @@ variable "group" {
   description = "Display group"
 }
 
+variable "name" {
+  default = "default-vm"
+  description = "Hostname of the system"
+}
+
 variable "region" {
   default = "us-central"
   description = "Region to clone in"

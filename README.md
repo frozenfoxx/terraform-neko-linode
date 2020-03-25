@@ -16,6 +16,7 @@ module "neko" {
 
   authorized_keys = var.authorized_keys
   image           = var.image
+  name            = "neko"
   region          = var.region
   root_pass       = var.root_pass
 }
