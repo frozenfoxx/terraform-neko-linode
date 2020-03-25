@@ -6,6 +6,9 @@ resource "linode_instance" "main" {
   authorized_keys = var.authorized_keys
   root_pass = var.root_pass
 
+  group = var.group
+  tags = var.tags
+
   provisioner "file" {
     source = "${path.module}/scripts"
     destination = "/tmp"
