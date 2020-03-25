@@ -11,7 +11,7 @@ This module requires a Linode account.
 To use this module, in your `main.tf` TerraForm code for a deployment insert the following:
 
 ``` code
-module "neko-1" {
+module "neko" {
   source = "git::git@github.com:frozenfoxx/terraform-neko-linode.git"
 
   authorized_keys = var.authorized_keys
