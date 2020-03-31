@@ -4,7 +4,8 @@
 
 # Requirements
 
-This module requires a Linode account.
+* a Linode account.
+* the `linode.ssh_key` resource is handled elsewhere.
 
 # Usage
 
@@ -14,10 +15,12 @@ To use this module, in your `main.tf` TerraForm code for a deployment insert the
 module "neko" {
   source = "git::git@github.com:frozenfoxx/terraform-neko-linode.git"
 
-  authorized_keys = var.authorized_keys
+  authorized_keys = ["${linode_sshkey.terraform.ssh_key}"]
   image           = var.image
   name            = "neko"
+  private_key     = chomp(file(var.private_ssh_key))
   region          = var.region
   root_pass       = var.root_pass
+  type            = var.type
 }
 ```
