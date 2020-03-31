@@ -13,7 +13,7 @@ To use this module, in your `main.tf` TerraForm code for a deployment insert the
 
 ``` code
 module "neko" {
-  source = "git::git@github.com:frozenfoxx/terraform-neko-linode.git"
+  source = "github.com/frozenfoxx/terraform-neko-linode"
 
   authorized_keys = ["${linode_sshkey.terraform.ssh_key}"]
   image           = var.image
