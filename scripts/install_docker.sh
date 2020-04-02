@@ -3,7 +3,7 @@
 # Variables
 DEBIAN_FRONTEND=noninteractive
 DEPENDENCIES="apt-transport-https ca-certificates curl gnupg-agent software-properties-common"
-PACKAGES="docker-ce docker-ce-cli containerd.io"
+PACKAGES="docker-ce docker-ce-cli containerd.io docker-compose"
 REPO_URL="https://download.docker.com/linux/ubuntu"
 REPO_GPG_KEY="https://download.docker.com/linux/ubuntu/gpg"
 
