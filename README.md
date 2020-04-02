@@ -20,7 +20,6 @@ module "neko" {
   name            = "neko"
   private_key     = chomp(file(var.private_ssh_key))
   region          = var.region
-  root_pass       = var.root_pass
   type            = var.type
 }
 ```
