@@ -1,37 +1,77 @@
 #!/usr/bin/env bash
 
 # Variables
-APP_DIR="/app"
-DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/nurdism/neko/master/docker-compose.yaml"
+
+DISPLAY=${DISPLAY:-':99.0'}
+IMAGE=${IMAGE:-'nurdism/neko:firefox'}
+NEKO_ADMIN=${NEKO_ADMIN:-'admin'}
+NEKO_BIND=${NEKO_BIND:-':8080'}
+NEKO_CERT=${NEKO_CERT:-''}
+NEKO_KEY=${NEKO_KEY:-''}
+NEKO_PASSWORD=${NEKO_PASSWORD:-'neko'}
+RESTART=${RESTART:-'always'}
+SHM_SIZE=${SHM_SIZE:-'1gb'}
 
 # Functions
 
-## Get the Docker Compose file
-get_docker_compose()
+## Install the container
+install_container()
 {
-  echo "Retrieving docker-compose.yaml..."
-  wget ${DOCKER_COMPOSE_URL}
+  echo "Setting up container..."
+  docker pull ${IMAGE}
 }
 
-## Run the compose file
-run_docker_compose()
+## Run the container
+run_container()
 {
-  echo "Running docker-compose..."
-  docker-compose up -d
+  echo "Running the container..."
+  docker run -it \
+    --rm
+    --restart=${RESTART} \
+    --shm-size=${SHM_SIZE} \
+    -e DISPLAY=${DISPLAY} \
+    -e NEKO_ADMIN=${NEKO_ADMIN} \
+    -e NEKO_BIND=${NEKO_BIND} \
+    -e NEKO_CERT=${NEKO_CERT} \
+    -e NEKO_KEY=${NEKO_KEY} \
+    -e NEKO_PASSWORD=${NEKO_PASSWORD} \
+    -p 80:8080 \
+    -p 59000-59100:59000-59100/udp \
+    --name='neko' \
+    ${IMAGE}
 }
 
-## Setup APP_DIR
-setup_app_dir()
+## Display usage information
+usage()
 {
-  echo "Setting up ${APP_DIR}..."
-  if ! [[ -d "/app" ]]; then
-    mkdir -p ${APP_DIR}
-  fi
-
-  cd ${APP_DIR}
+  echo "Usage: [Environment Variables] install_neko.sh [arguments]"
+  echo "  Arguments:"
+  echo "    -h                display usage information"
+  echo "  Environment Variables:"
+  echo "    DISPLAY          loopback display (default: ':99.0')"
+  echo "    IMAGE            the image to pull (default: 'nurdism/neko:firefox')"
+  echo "    NEKO_ADMIN       the administrative password (default: 'admin')"
+  echo "    NEKO_BIND        interface port to bind to (default: ':8080')"
+  echo "    NEKO_CERT        certificate for SSL (default: '')"
+  echo "    NEKO_KEY         key for SSL (default: '')"
+  echo "    NEKO_PASSWORD    non-administrative password (default: 'neko')"
+  echo "    RESTART          the restart policy for the container (default: 'always')"
+  echo "    SHM_SIZE         shared memory size (default: '1gb')"
 }
 
 # Logic
-setup_app_dir
-get_docker_compose
-run_docker_compose
+
+## Argument parsing
+while [[ "$1" != "" ]]; do
+  case $1 in
+    -h | --help ) usage
+                  exit 0
+                  ;;
+    * )           usage
+                  exit 1
+  esac
+  shift
+done
+
+install_container
+run_container
