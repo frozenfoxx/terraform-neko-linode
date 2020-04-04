@@ -26,8 +26,8 @@ resource "linode_instance" "main" {
   provisioner "remote-exec" {
     inline = [
       "chmod 755 /tmp/scripts/*.sh",
-      "sudo /tmp/scripts/install_docker.sh",
-      "sudo /tmp/scripts/install_neko.sh"
+      "/tmp/scripts/install_docker.sh",
+      "NEKO_ADMIN=${var.neko_admin} NEKO_PASSWORD=${var.neko_password} /tmp/scripts/install_neko.sh"
     ]
   }
 }
