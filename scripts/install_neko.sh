@@ -26,7 +26,6 @@ run_container()
 {
   echo "Running the container..."
   docker run -it \
-    --rm \
     --restart=${RESTART} \
     --shm-size=${SHM_SIZE} \
     -e DISPLAY=${DISPLAY} \
