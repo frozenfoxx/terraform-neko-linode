@@ -18,14 +18,14 @@ variable "name" {
   description = "Hostname of the system"
 }
 
-variable "neko_admin" {
-  default     = "admin"
-  description = "Administrator password access for Neko"
-}
-
 variable "neko_password" {
   default     = "neko"
   description = "Basic user password access for Neko"
+}
+
+variable "neko_password_admin" {
+  default     = "admin"
+  description = "Administrator password access for Neko"
 }
 
 variable "private_key" {

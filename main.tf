@@ -27,7 +27,7 @@ resource "linode_instance" "main" {
     inline = [
       "chmod 755 /tmp/scripts/*.sh",
       "/tmp/scripts/install_docker.sh",
-      "NEKO_ADMIN=${var.neko_admin} NEKO_PASSWORD=${var.neko_password} /tmp/scripts/install_neko.sh"
+      "NEKO_ADMIN=${var.neko_password_admin} NEKO_PASSWORD=${var.neko_password} /tmp/scripts/install_neko.sh"
     ]
   }
 }
