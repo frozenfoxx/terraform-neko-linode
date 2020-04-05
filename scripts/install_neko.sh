@@ -3,7 +3,7 @@
 # Variables
 
 DISPLAY=${DISPLAY:-':99.0'}
-IMAGE=${IMAGE:-'nurdism/neko:firefox'}
+IMAGE=${IMAGE:-'nurdism/neko:chromium'}
 NEKO_BIND=${NEKO_BIND:-':8080'}
 NEKO_CERT=${NEKO_CERT:-''}
 NEKO_KEY=${NEKO_KEY:-''}
@@ -11,6 +11,9 @@ NEKO_PASSWORD=${NEKO_PASSWORD:-'neko'}
 NEKO_PASSWORD_ADMIN=${NEKO_PASSWORD_ADMIN:-'admin'}
 RESTART=${RESTART:-'always'}
 SHM_SIZE=${SHM_SIZE:-'1gb'}
+
+## Temporary workaround for ADMIN -> PASSWORD_ADMIN
+NEKO_ADMIN=${NEKO_PASSWORD_ADMIN}
 
 # Functions
 
@@ -27,14 +30,16 @@ run_container()
   echo "Running the container..."
   docker run -it \
     -d \
+    --cap-add SYS_ADMIN \
     --restart=${RESTART} \
     --shm-size=${SHM_SIZE} \
     -e DISPLAY=${DISPLAY} \
-    -e NEKO_PASSWORD_ADMIN=${NEKO_PASSWORD_ADMIN} \
+    -e NEKO_ADMIN=${NEKO_PASSWORD_ADMIN} \
     -e NEKO_BIND=${NEKO_BIND} \
     -e NEKO_CERT=${NEKO_CERT} \
     -e NEKO_KEY=${NEKO_KEY} \
     -e NEKO_PASSWORD=${NEKO_PASSWORD} \
+    -e NEKO_PASSWORD_ADMIN=${NEKO_PASSWORD_ADMIN} \
     -p 80:8080 \
     -p 59000-59100:59000-59100/udp \
     --name='neko' \
